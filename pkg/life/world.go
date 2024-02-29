@@ -38,23 +38,22 @@ func boolToInt(b bool) int {
 	return 0
 }
 
-// KnowNeighbors подсчитает соседей с учетом рамок за выхождения
+// KnowNeighbors ведёт подсчёт соседей на торе(с учетом рамок за выхождения).
 func (w *World) KnowNeighbors(x, y int) int {
-	// Если вышли за границы - соседа нет
-	if x < 0 || y < 0 || x >= w.Width || y >= w.Height {
-		return 0
-	}
+	// Если вышли за границы - сосед тор
+	x = (x + w.Width) % w.Width
+	y = (y + w.Height) % w.Height
 	// Если со
 	return boolToInt(w.Cells[y][x])
 }
 
-// Neighbours вычислит кол-во соседей
-func (w *World) Neighbours(x int, y int) int {
+// Neighbors вычисляет количество соседей на торе(с учетом рамок за выхождения).
+func (w *World) Neighbors(x int, y int) int {
 	return w.KnowNeighbors(x-1, y-1) + w.KnowNeighbors(x, y-1) + w.KnowNeighbors(x+1, y-1) + w.KnowNeighbors(x+1, y) + w.KnowNeighbors(x+1, y+1) + w.KnowNeighbors(x, y+1) + w.KnowNeighbors(x-1, y+1) + w.KnowNeighbors(x-1, y)
 }
 
 func (w *World) Next(x, y int) bool {
-	n := w.Neighbours(x, y)      // получим количество живых соседей
+	n := w.Neighbors(x, y)       // получим количество живых соседей
 	alive := w.Cells[y][x]       // текущее состояние клетки
 	if n < 4 && n > 1 && alive { // если соседей двое или трое, а клетка жива
 		return true // то следующее состояние — жива
