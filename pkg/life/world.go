@@ -1,6 +1,7 @@
 package life
 
 import (
+	"errors"
 	"math/rand"
 	"os"
 	"time"
@@ -13,7 +14,10 @@ type World struct {
 }
 
 // NewWorld выделяет память под сетку
-func NewWorld(height, width int) *World {
+func NewWorld(height, width int) (*World, error) {
+	if height <= 0 || width <= 0 {
+		return nil, errors.New("Размеры не могут быть отрицательны")
+	}
 	// создаём тип World с количеством слайсов hight (количество строк)
 	cells := make([][]bool, height)
 	for i := range cells {
@@ -23,7 +27,7 @@ func NewWorld(height, width int) *World {
 		Height: height,
 		Width:  width,
 		Cells:  cells,
-	}
+	}, nil
 }
 
 // Преобразование bool в int для вычисления количества соседей

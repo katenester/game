@@ -24,9 +24,9 @@ func New(config Config) *Application {
 
 func (a *Application) Run(ctx context.Context) error {
 	// Объект для хранения текущего состояния сетки
-	currentWorld := life.NewWorld(a.Cfg.Height, a.Cfg.Width)
+	currentWorld, _ := life.NewWorld(a.Cfg.Height, a.Cfg.Width)
 	// Объект для хранения очередного состояния сетки
-	nextWorld := life.NewWorld(a.Cfg.Height, a.Cfg.Width)
+	nextWorld, _ := life.NewWorld(a.Cfg.Height, a.Cfg.Width)
 	// Заполняем сетку на 30%
 	currentWorld.RandInit(30)
 	for {
